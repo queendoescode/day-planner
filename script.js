@@ -23,21 +23,8 @@ $(function () {
       hourOfDay = hour;
     }
 
-    var currentHour = dayjs().hour();
-    var isPresent = hour === currentHour;
-    var isFuture = hour > currentHour;
-
-    var colourClass;
-    if (isPresent) {
-      colourClass = "present";
-    } else if (isFuture) {
-      colourClass = "future";
-    } else {
-      colourClass = "past";
-    }
-
     var newElement = $(
-      `<div id="hour-${hour}" class="row time-block ${colourClass}">
+      `<div id="hour-${hour}" class="row time-block past">
         <div class="col-2 col-md-1 hour text-center py-3">${hourOfDay}${amPm}</div>
         <textarea class="col-8 col-md-10 description" rows="3"> </textarea>
         <button class="btn saveBtn col-2 col-md-1" aria-label="save">
@@ -45,9 +32,30 @@ $(function () {
         </button>
       </div>`);  
 
-   
-      
     workHours.append(newElement); // add to DOM so it will be visible
+  }
+
+  function updateColourClasses() {
+
+    var currentHour = dayjs().hour();
+
+    for (var hour = 9; hour <= 17; hour++) {
+      var isPresent = hour === currentHour;
+      var isFuture = hour > currentHour;
+
+      var colourClass;
+      if (isPresent) {
+        colourClass = "row time-block present";
+      } else if (isFuture) {
+        colourClass = "row time-block future";
+      } else {
+        colourClass = "row time-block past";
+      }
+
+      $(`#hour-${hour}`).attr("class", colourClass);
+
+    }
+    
   }
 
   // TODO: Add a listener for click events on the save button. This code should
@@ -71,16 +79,19 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
 
   var timeElement =$("#currentDay");
+  
   // See: https://day.js.org/docs/en/parse/now
 
-  function everySecond() {
+  function doThisEverySecond() {
     var currentTime = dayjs();
     var formattedString = currentTime.format(" dddd,MMMM Do");
 
     timeElement.text(formattedString);
+
+    updateColourClasses();
   }
 
-  var timerId = setInterval(everySecond, 1000);
+  var timerId = setInterval(doThisEverySecond, 1000);
 
 
 });
