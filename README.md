@@ -16,7 +16,7 @@ This is an application that helps to keep track of daily work activities.
 
 * [GitHub](https://github.com/queendoescode/day-planner)
 
-* [Deployed site]()
+* [Deployed site](https://queendoescode.github.io/day-planner/)
 
 ## Third Party Resources used by this site
 
